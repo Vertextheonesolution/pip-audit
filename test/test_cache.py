@@ -5,7 +5,15 @@ from packaging.version import Version
 from platformdirs import user_cache_path
 
 import pip_audit._cache as cache
+from pip_audit import __version__
 from pip_audit._cache import _get_cache_dir, _get_pip_cache
+
+
+def test_caching_session_user_agent(cache_dir):
+    session = cache.caching_session(cache_dir)
+    assert session.headers["User-Agent"] == (
+        f"pip-audit/{__version__} (+https://github.com/pypa/pip-audit)"
+    )
 
 
 def test_get_cache_dir(monkeypatch):
